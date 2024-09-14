@@ -11,27 +11,28 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ArrayListCreatorTest {
+
     public static Stream<Arguments> testCases() {
         return Stream.of(
                 Arguments.of("EmptySourceList",
                         List.of(),
                         new ArrayList<>()),
 
-                Arguments.of("FromListWithTwoElements",
-                        List.of("Hello", "Word"),
+                Arguments.of("ListWithLessThanThreeElements",
+                        List.of("one", "two"),
                         new ArrayList<>()),
 
-                Arguments.of("FromListWithThreeElements",
-                        List.of("I", "love", "you"),
-                        new ArrayList<>(List.of("you", "you"))),
+                Arguments.of("FromListWithExactlyThreeElements",
+                        List.of("a", "b", "c"),
+                        new ArrayList<>(List.of("c", "c"))),
 
-                Arguments.of("FromListWithFourElements",
-                        List.of("Java", "is", "the", "best"),
-                        new ArrayList<>(List.of("the", "the"))),
+                Arguments.of("FromListWithMultipleOfThreeElements",
+                        List.of("a", "b", "c", "d", "e", "f", "g", "h", "i"),
+                        new ArrayList<>(List.of("c", "c", "f", "f", "i", "i"))),
 
-                Arguments.of("FromListWithSixElements",
-                        List.of("List", "can", "consist", "of", "different", "objects"),
-                        new ArrayList<>(List.of("consist", "consist", "objects", "objects")))
+                Arguments.of("FromListWithMixedElements",
+                        List.of("x", "y", "z", "a", "b", "c"),
+                        new ArrayList<>(List.of("z", "z", "c", "c")))
         );
     }
 
@@ -46,4 +47,3 @@ public class ArrayListCreatorTest {
         assertEquals(expectedArrayList, actualArrayList);
     }
 }
-
