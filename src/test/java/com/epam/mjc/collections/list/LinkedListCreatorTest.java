@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class LinkedListCreatorTest {
+
     public static Stream<Arguments> testCases() {
         return Stream.of(
                 Arguments.of("EmptySourceList",
@@ -27,7 +28,17 @@ public class LinkedListCreatorTest {
 
                 Arguments.of("FromListOfOddAndEvenNumbers",
                         List.of(47, 3, 12, 25, 44, 80, 13, 2, 7, 52),
-                        new LinkedList<>(List.of(7, 13, 25, 3, 47, 12, 44, 80, 2, 52)))
+                        new LinkedList<>(List.of(7, 13, 25, 3, 47, 12, 44, 80, 2, 52))),
+
+                // Дополнительный случай с одним элементом
+                Arguments.of("SingleElementList",
+                        List.of(1),
+                        new LinkedList<>(List.of(1))),
+
+                // Дополнительный случай с большим количеством элементов
+                Arguments.of("LargeListOfElements",
+                        List.of(1000, 1, 2, 999, 500, 3),
+                        new LinkedList<>(List.of(3, 999, 1, 1000, 2, 500)))
         );
     }
 
