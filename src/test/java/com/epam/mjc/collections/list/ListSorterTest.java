@@ -4,52 +4,39 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class LinkedListCreatorTest {
+public class ListSorterTest {
 
     public static Stream<Arguments> testCases() {
         return Stream.of(
-                Arguments.of("EmptySourceList",
+                Arguments.of("EmptyList",
                         List.of(),
-                        new LinkedList<>()),
+                        List.of()),
 
-                Arguments.of("FromListOfOddNumbers",
-                        List.of(47, 3, 25, 13, 7),
-                        new LinkedList<>(List.of(7, 13, 25, 3, 47))),
+                Arguments.of("SmallListWithDuplicates",
+                        List.of("5", "5", "0", "-1", "0"),
+                        List.of("0", "0", "-1", "5", "5")),
 
-                Arguments.of("FromListOfEvenNumbers",
-                        List.of(12, 44, 80, 2, 52),
-                        new LinkedList<>(List.of(12, 44, 80, 2, 52))),
+                Arguments.of("ListWithLargeNumbers",
+                        List.of("-1000000", "1000000", "-999999", "999999"),
+                        List.of("0", "-1", "-1000000", "-999999", "1000000", "999999")),
 
-                Arguments.of("FromListOfOddAndEvenNumbers",
-                        List.of(47, 3, 12, 25, 44, 80, 13, 2, 7, 52),
-                        new LinkedList<>(List.of(7, 13, 25, 3, 47, 12, 44, 80, 2, 52))),
-
-                // Тест для одного элемента в списке
-                Arguments.of("SingleElementInList",
-                        List.of(5),
-                        new LinkedList<>(List.of(5))),
-
-                // Тест для большого числа элементов
-                Arguments.of("LargeNumberTest",
-                        List.of(1000000, 999999, 500000, 1, 123456),
-                        new LinkedList<>(List.of(1, 999999, 1000000, 500000, 123456)))
+                Arguments.of("MixedNumbers",
+                        List.of("-5", "-12", "0", "20", "9", "-20", "37"),
+                        List.of("0", "-5", "9", "-12", "-20", "20", "37"))
         );
     }
 
-    @ParameterizedTest(name = "createLinkedList_{0}_Test")
+    @ParameterizedTest(name = "sort_{0}_Test")
     @MethodSource(value = "testCases")
-    void createLinkedListTest(String name,
-                              List<Integer> sourceList,
-                              LinkedList<Integer> expectedLinkedList) {
+    void sortTest(String name, List<String> sourceList, List<String> expectedSortedList) {
 
-        LinkedListCreator linkedListCreator = new LinkedListCreator();
-        LinkedList<Integer> actualLinkedList = linkedListCreator.createLinkedList(sourceList);
-        assertEquals(expectedLinkedList, actualLinkedList);
+        ListSorter listSorter = new ListSorter();
+        listSorter.sort(sourceList);
+        assertEquals(expectedSortedList, sourceList);
     }
 }
