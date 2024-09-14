@@ -4,33 +4,52 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class ListSorterTest {
+public class LinkedListCreatorTest {
+
     public static Stream<Arguments> testCases() {
         return Stream.of(
-                Arguments.of("EmptyList",
-                        new ArrayList<>(),
-                        List.of()),
+                Arguments.of("EmptySourceList",
+                        List.of(),
+                        new LinkedList<>()),
 
-                Arguments.of("NonEmptyList",
-                        new ArrayList<>(List.of("7", "10", "6", "-7", "-2", "0", "-2", "-23")),
-                        List.of("0", "-2", "-2", "6", "-7", "7", "10", "-23"))
+                Arguments.of("FromListOfOddNumbers",
+                        List.of(47, 3, 25, 13, 7),
+                        new LinkedList<>(List.of(7, 13, 25, 3, 47))),
+
+                Arguments.of("FromListOfEvenNumbers",
+                        List.of(12, 44, 80, 2, 52),
+                        new LinkedList<>(List.of(12, 44, 80, 2, 52))),
+
+                Arguments.of("FromListOfOddAndEvenNumbers",
+                        List.of(47, 3, 12, 25, 44, 80, 13, 2, 7, 52),
+                        new LinkedList<>(List.of(7, 13, 25, 3, 47, 12, 44, 80, 2, 52))),
+
+                // Тест для одного элемента в списке
+                Arguments.of("SingleElementInList",
+                        List.of(5),
+                        new LinkedList<>(List.of(5))),
+
+                // Тест для большого числа элементов
+                Arguments.of("LargeNumberTest",
+                        List.of(1000000, 999999, 500000, 1, 123456),
+                        new LinkedList<>(List.of(1, 999999, 1000000, 500000, 123456)))
         );
     }
 
-    @ParameterizedTest(name = "sort_{0}_Test")
+    @ParameterizedTest(name = "createLinkedList_{0}_Test")
     @MethodSource(value = "testCases")
-    void sortTest(String name,
-                  List<String> sourceList,
-                  List<String> expectedList) {
+    void createLinkedListTest(String name,
+                              List<Integer> sourceList,
+                              LinkedList<Integer> expectedLinkedList) {
 
-        ListSorter listSorter = new ListSorter();
-        listSorter.sort(sourceList);
-        assertEquals(expectedList, sourceList);
+        LinkedListCreator linkedListCreator = new LinkedListCreator();
+        LinkedList<Integer> actualLinkedList = linkedListCreator.createLinkedList(sourceList);
+        assertEquals(expectedLinkedList, actualLinkedList);
     }
 }
